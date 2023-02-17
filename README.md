@@ -63,14 +63,14 @@ To simplify, let us implement this solution with 2 Web Servers, the approach wil
 
 * Make sure apache2 is up and running. `sudo systemctl status apache2`
 
-* Configure load balancing
+* Configure load balancing by traffic balancing method which will distribute the incoming load between your Web Servers according to the current traffic load. We can control in which proportion the traffic must be distributed by loadfactor parameter.
   
   `sudo vi /etc/apache2/sites-available/000-default.conf`
 
     Add this configuration into this section
-
-       <VirtualHost *:80>  </VirtualHost>
-
+    
+    `<VirtualHost *:80>  </VirtualHost>`
+       
         <Proxy "balancer://mycluster">
                 BalancerMember http://<WebServer1-Private-IP-Address>:80 loadfactor=5 timeout=1
                 BalancerMember http://<WebServer2-Private-IP-Address>:80 loadfactor=5 timeout=1
@@ -82,6 +82,15 @@ To simplify, let us implement this solution with 2 Web Servers, the approach wil
         ProxyPreserveHost On
         ProxyPass / balancer://mycluster/
         ProxyPassReverse / balancer://mycluster/
+
+* Restart apache server. `sudo systemctl restart apache2`
+
+* Verify that our configuration works – try to access your LB’s public IP address or Public DNS name from your browser:
+    
+        http://<Load-Balancer-Public-IP-Address-or-Public-DNS-Name>/index.php
+
+* Note: If in [Devops tooling website project](https://github.com/lateef-taiwo/Devops-Tooling-Website-Solution) you mounted /var/log/httpd/ from your Web Servers to the NFS server – unmount them and make sure that each Web Server has its own log directory.
+Open two ssh sessions for both Web Servers and run the following command:
 
 
 
