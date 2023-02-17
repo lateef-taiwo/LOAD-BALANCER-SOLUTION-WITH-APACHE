@@ -50,7 +50,20 @@ To simplify, let us implement this solution with 2 Web Servers, the approach wil
 
   ![libxml2](./images/install%20libxml2.png)
 
-  
+* Enable the following modules:
+   
+        sudo a2enmod rewrite
+        sudo a2enmod proxy
+        sudo a2enmod proxy_balancer
+        sudo a2enmod proxy_http
+        sudo a2enmod headers
+        sudo a2enmod lbmethod_bytraffic
+
+* Restart apache2 service. `sudo systemctl restart apache2`
+
+* Make sure apache2 is up and running. `sudo systemctl status apache2`
+
+* Configure load balancing
 
 
 
