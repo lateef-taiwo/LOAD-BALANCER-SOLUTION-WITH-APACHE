@@ -28,6 +28,8 @@ Below is an updated solution architecture with an LB added on top of Web Servers
 Deploy and configure an Apache Load Balancer for Tooling Website solution on a separate Ubuntu EC2 instance. Make sure that users can be served by Web servers through the Load Balancer.
 To simplify, let us implement this solution with 2 Web Servers, the approach will be the same for 3 and more Web Servers.
 
+---------
+_________
 ### CONFIGURE APACHE AS A LOAD BALANCER
 
 * Create an Ubuntu Server 20.04 EC2 instance and name it apache-load-balancer.
@@ -109,7 +111,27 @@ To simplify, let us implement this solution with 2 Web Servers, the approach wil
   ![tail](./images/tail.png)
 
 * Try to refresh your browser page `http://<Load-Balancer-Public-IP-Address-or-Public-DNS-Name>/index.php` several times and ensure both servers receive HTTP GET requests from your LB – new records must appear in each server’s log file. The number of requests to each server will be approximately the same since we set loadfactor to the same value for both servers – it means that traffic will be distributed evenly between them.
+---------
+_________
+###  Configure Local DNS Names Resolution
+Sometimes it is tedious to remember and switch between IP addresses, especially if you have a lot of servers under your management.
+What we can do, is to configure local domain name resolution. The easiest way is to use /etc/hosts file. So let us configure the IP address to domain name mapping for our LB.
 
+* Open this file on your LB server. `sudo vi /etc/hosts`
+  
+* Add 2 records into this file with the Local IP address and arbitrary name for both of your Web Servers.
 
+        <WebServer1-Private-IP-Address> Web1
+        <WebServer2-Private-IP-Address> Web2
+
+    ![web1](./images/etc-host.png)
+
+* Now you can update your LB config file with those names instead of IP addresses.
+
+        BalancerMember http://Web1:80 loadfactor=5 timeout=1
+        BalancerMember http://Web2:80 loadfactor=5 timeout=1
+
+   ![load](./images/load%20balancer%20config%20update.png)
+   
 
 
