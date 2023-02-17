@@ -23,5 +23,34 @@ In order to hide all this complexity and to have a single point of access with a
 Below is an updated solution architecture with an LB added on top of Web Servers (for simplicity let us assume it is a software L7 Application LB, for example – Apache, NGINX or HAProxy)
 
   ![Architecture 1](./images/architecture1.png)
+
+### TASK
+Deploy and configure an Apache Load Balancer for Tooling Website solution on a separate Ubuntu EC2 instance. Make sure that users can be served by Web servers through the Load Balancer.
+To simplify, let us implement this solution with 2 Web Servers, the approach will be the same for 3 and more Web Servers.
+
+### CONFIGURE APACHE AS A LOAD BALANCER
+
+* Create an Ubuntu Server 20.04 EC2 instance and name it apache-load-balancer.
+
+* Open TCP port 80 on Project-8-apache-lb by creating an Inbound Rule in the Security Group.
+
+  ![sec groups](./images/sec%20group.png)
+
+* Install Apache Load Balancer on Project-8-apache-lb server and configure it to point traffic coming to LB to both Web Servers:
+
+  `sudo apt update`
+
+  `sudo apt install apache2 -y`
+
+  `sudo apt-get install libxml2-dev`
+
+  ![update](./images/update.png)
+
+  ![apache](./images/apache%20install.png)
+
+  ![libxml2](./images/install%20libxml2.png)
+
   
+
+
 
