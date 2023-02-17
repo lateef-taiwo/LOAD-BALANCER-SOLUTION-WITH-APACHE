@@ -64,6 +64,25 @@ To simplify, let us implement this solution with 2 Web Servers, the approach wil
 * Make sure apache2 is up and running. `sudo systemctl status apache2`
 
 * Configure load balancing
+  
+  `sudo vi /etc/apache2/sites-available/000-default.conf`
+
+    Add this configuration into this section
+
+       <VirtualHost *:80>  </VirtualHost>
+
+        <Proxy "balancer://mycluster">
+                BalancerMember http://<WebServer1-Private-IP-Address>:80 loadfactor=5 timeout=1
+                BalancerMember http://<WebServer2-Private-IP-Address>:80 loadfactor=5 timeout=1
+                ProxySet lbmethod=bytraffic
+                # ProxySet lbmethod=byrequests
+            </Proxy>
+
+
+        ProxyPreserveHost On
+        ProxyPass / balancer://mycluster/
+        ProxyPassReverse / balancer://mycluster/
+
 
 
 
