@@ -132,6 +132,19 @@ What we can do, is to configure local domain name resolution. The easiest way is
         BalancerMember http://Web2:80 loadfactor=5 timeout=1
 
    ![load](./images/load%20balancer%20config%20update.png)
-   
 
+
+* You can try to curl your Web Servers from LB locally `curl http://Web1` or `curl http://Web2` – it shall work.
+
+  ![curl1](./images/curl%201.png)
+
+  ![curl](./images/curl2.png)
+
+### Target Architecture
+   Now your set-up looks like this:
+
+   ![Architecture 2](./images/architecture2.png)
+
+### Congratulations!
+You have just implemented a Load balancing Web Solution for your DevOps team.
 
