@@ -106,7 +106,7 @@ To simplify, let us implement this solution with 2 Web Servers, the approach wil
 
   `sudo tail -f /var/log/httpd/access_log`
 
-
+  ![tail](./images/tail.png)
 
 * Try to refresh your browser page `http://<Load-Balancer-Public-IP-Address-or-Public-DNS-Name>/index.php` several times and ensure both servers receive HTTP GET requests from your LB – new records must appear in each server’s log file. The number of requests to each server will be approximately the same since we set loadfactor to the same value for both servers – it means that traffic will be distributed evenly between them.
 
